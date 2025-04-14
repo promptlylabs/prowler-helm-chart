@@ -1,0 +1,57 @@
+apiVersion: v2
+name: prowler
+description: Prowler is an Open Cloud Security tool for AWS, Azure, GCP and Kubernetes. It helps for continuos monitoring, security assessments and audits, incident response, compliance, hardening and forensics readiness. 
+type: application
+version: 0.0.1
+appVersion: "5.4.4"
+home: https://prowler.com/
+icon: https://prowler.com/wp-content/themes/prowler-2024/img/web-logo-prowler-p.png
+keywords:
+  - security
+  - aws
+  - azure
+  - gcp
+  - kubernetes
+maintainers:
+  - name: Dani
+    email: andre.gomes@promptlyhealth.com
+dependencies:
+  - name: postgresql
+    version: 16.6.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: valkey
+    version: 3.0.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: valkey.enabled
+# annotations: 
+#   artifacthub.io/changes: |
+#     - kind: added
+#       description: Support for Radius recipes
+#     - kind: changed
+#       description: Update db migration script to support pg_partman 5
+#     - kind: fixed
+#       description: Do not render outdated security reports summary
+#     - kind: fixed
+#       description: Typo in repositories modal
+#     - kind: security
+#       description: Remove user sessions when password is updated
+#   artifacthub.io/containsSecurityUpdates: "true"
+#   artifacthub.io/links: |
+#     - name: source
+#       url: https://github.com/artifacthub/hub
+#     - name: support
+#       url: https://github.com/artifacthub/hub/issues
+#   artifacthub.io/screenshots: |
+#     - title: Home page
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot1.jpg
+#     - title: Packages search
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot2.jpg
+#     - title: Package details
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot3.jpg
+#     - title: Security report
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot4.jpg
+#     - title: Values schema
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot5.jpg
+#     - title: Changelog
+#       url: https://artifacthub.github.io/hub/screenshots/screenshot6.jpg
