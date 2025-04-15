@@ -49,6 +49,25 @@ spec:
             - name: http
               containerPort: {{ .Values.api.service.port }}
               protocol: TCP
+          env:
+          - name: POSTGRES_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
+                key: postgres-password
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
+                key: password
+          - name: VALKEY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.valkey.auth.existingSecret .Values.api.valkey.existingSecret .Values.valkey.enabled}}
+                key: valkey-password
+          envFrom:
+            - configMapRef:
+                name: {{ include "prowler.fullname" . }}-api
           {{- with .Values.api.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}

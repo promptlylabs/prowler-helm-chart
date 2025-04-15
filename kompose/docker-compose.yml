@@ -1,5 +1,6 @@
 services:
   api:
+    platform: linux/amd64
     hostname: "prowler-api"
     image: prowlercloud/prowler-api:${PROWLER_API_VERSION:-stable}
     env_file:
@@ -19,6 +20,7 @@ services:
       - "prod"
 
   ui:
+    platform: linux/amd64
     image: prowlercloud/prowler-ui:${PROWLER_UI_VERSION:-stable}
     env_file:
       - path: .env
@@ -27,6 +29,7 @@ services:
       - ${UI_PORT:-3000}:${UI_PORT:-3000}
 
   postgres:
+    platform: linux/amd64
     image: postgres:16.3-alpine3.20
     hostname: "postgres-db"
     volumes:
@@ -47,6 +50,7 @@ services:
       retries: 5
 
   valkey:
+    platform: linux/amd64
     image: valkey/valkey:7-alpine3.19
     hostname: "valkey"
     volumes:
@@ -63,6 +67,7 @@ services:
       retries: 3
 
   worker:
+    platform: linux/amd64
     image: prowlercloud/prowler-api:${PROWLER_API_VERSION:-stable}
     env_file:
       - path: .env
@@ -79,6 +84,7 @@ services:
       - "worker"
 
   worker-beat:
+    platform: linux/amd64
     image: prowlercloud/prowler-api:${PROWLER_API_VERSION:-stable}
     env_file:
       - path: ./.env

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "prowler.fullname" . }}-worker_beat
+  name: {{ include "prowler.fullname" . }}-worker-beat
   labels:
     {{- include "prowler.labels" . | nindent 4 }}
   {{- with .Values.worker_beat.ingress.annotations }}
@@ -35,7 +35,7 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ include "prowler.fullname" $ }}-worker_beat
+                name: {{ include "prowler.fullname" $ }}-worker-beat
                 port:
                   number: {{ $.Values.worker_beat.service.port }}
           {{- end }}

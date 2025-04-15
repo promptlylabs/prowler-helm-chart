@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "prowler.fullname" . }}-worker_beat
+  name: {{ include "prowler.fullname" . }}-worker-beat
   labels:
     {{- include "prowler.labels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker_beat
+      app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker-beat
   template:
     metadata:
       {{- with .Values.worker_beat.podAnnotations }}
@@ -19,7 +19,7 @@ spec:
       {{- end }}
       labels:
         {{- include "prowler.labels" . | nindent 8 }}
-        app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker_beat
+        app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker-beat
         {{- with .Values.worker_beat.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -34,7 +34,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: worker_beat
+        - name: worker-beat
           {{- with .Values.worker_beat.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
@@ -49,6 +49,25 @@ spec:
             - name: http
               containerPort: {{ .Values.worker_beat.service.port }}
               protocol: TCP
+          env:
+          - name: POSTGRES_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
+                key: postgres-password
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
+                key: password
+          - name: VALKEY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ ternary .Values.valkey.auth.existingSecret .Values.api.valkey.existingSecret .Values.valkey.enabled}}
+                key: valkey-password
+          envFrom:
+            - configMapRef:
+                name: {{ include "prowler.fullname" . }}-api
           {{- with .Values.worker_beat.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
