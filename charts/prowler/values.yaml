@@ -3,10 +3,22 @@ nameOverride: ""
 fullnameOverride: ""
 
 postgresql:
-  enabled: false
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        username: prowler
+        database: prowler
+        # Name of existing secret to use for PostgreSQL credentials.
+        # Must contain following keys: postgres-password; password
+        existingSecret: ""
 
 valkey:
-  enabled: false
+  enabled: true
+  auth:
+    # Name of existing secret to use for Valkey credentials.
+    # Must contain following keys: valkey-password
+    existingSecret: ""
 
 api:  
   # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
@@ -19,6 +31,26 @@ api:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
+
+  # If not using the postgresql chart, fill in the following values
+  postgresql:
+    host: ""
+    port: 5432
+    adminUser: "postgres"
+    user: "prowler"
+    database: "prowler"
+    # Name of existing secret to use for PostgreSQL credentials.
+    # Must contain following keys: postgres-password; password
+    existingSecret: ""
+  
+  # If not using the valkey chart, fill in the following values
+  valkey:
+    host: ""
+    port: 6379
+    db: 0
+    # Name of existing secret to use for Valkey credentials.
+    # Must contain following keys: valkey-password
+    existingSecret: ""
 
   command:
     - /home/prowler/docker-entrypoint.sh
@@ -95,13 +127,17 @@ api:
 
   # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   livenessProbe:
+    failureThreshold: 10
     httpGet:
-      path: /
+      path: /api/v1/docs
       port: http
+    periodSeconds: 20
   readinessProbe:
+    failureThreshold: 10
     httpGet:
-      path: /
+      path: /api/v1/docs
       port: http
+    periodSeconds: 20
 
   # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
   autoscaling:
