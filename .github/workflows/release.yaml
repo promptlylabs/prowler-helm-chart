@@ -24,7 +24,8 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       
-      # https://colinwilson.uk/2022/01/27/how-to-sign-helm-charts-using-chart-releaser-action/
+      # - https://colinwilson.uk/2022/01/27/how-to-sign-helm-charts-using-chart-releaser-action/
+      # - https://blog.devops.dev/a-guide-to-signing-helm-charts-with-gpg-using-github-action-and-sign-images-on-artifacthub-958a23010e94
       # Optional step if GPG signing is used
       - name: Prepare GPG key
         run: |

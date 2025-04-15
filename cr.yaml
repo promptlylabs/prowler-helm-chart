@@ -1,5 +1,4 @@
-# cr.yaml
 # Set to true for GPG signing
 sign: true
 # UID of the GPG key to use
-key: Dani (Prowler Helm Chart signing) <andre.gomes@promptlyhealth.com>
+key: Dani
