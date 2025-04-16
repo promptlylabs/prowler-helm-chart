@@ -1,6 +1,6 @@
 <!-- 
-This README is the one shown on the Homepage of the repository
-Images should use relative URLs.
+This README is the one shown on Artifact Hub.
+Images should use absolute URLs.
 -->
 
 # Prowler Helm Chart
@@ -27,7 +27,7 @@ The app leverages the following supporting infrastructure:
 - **Celery Workers**: Facilitate asynchronous execution of Prowler scans.
 - **Valkey**: An in-memory database serving as a message broker for the Celery workers.
 
-![prowler architecture](docs/images/architecture.png)
+![prowler architecture](https://promptlylabs.github.io/prowler-helm-chart/docs/images/architecture.png)
 
 ## Contributing
 
