@@ -20,9 +20,9 @@ entries:
       artifacthub.io/prerelease: "true"
       artifacthub.io/screenshots: |
         - title: Sign In
-          url: https://github.com/promptlylabs/prowler-helm-chart/docs/images/sign_in.png
+          url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/sign_in.png
         - title: Sign Up
-          url: https://github.com/promptlylabs/prowler-helm-chart/docs/images/sign_up.png
+          url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/sign_up.png
     apiVersion: v2
     appVersion: 5.5.0
     created: "2025-04-16T08:33:10.092210332Z"
