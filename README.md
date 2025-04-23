@@ -5,7 +5,7 @@ Images should use relative URLs.
 
 # Prowler Helm Chart
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square)
+![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square)
 ![AppVersion: 5.5.1](https://img.shields.io/badge/AppVersion-5.5.1-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prowler-app)](https://artifacthub.io/packages/helm/prowler-app/prowler)
 
@@ -28,6 +28,21 @@ The app leverages the following supporting infrastructure:
 - **Valkey**: An in-memory database serving as a message broker for the Celery workers.
 
 ![prowler architecture](docs/images/architecture.png)
+
+## Setup
+
+Prowler requires an existing PostgreSQL database and a DB user with the necessary permissions to create tables and run migrations.
+
+On startup, the Prowler API will run migrations and create a new user defined on the following environment variable:
+
+```yaml
+POSTGRES_USER: prowler
+POSTGRES_PASSWORD: prowler_password
+```
+
+This Chart uses Bitnami's Charts to deploy [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql) and [Valkey](https://artifacthub.io/packages/helm/bitnami/valkey), but keep in mind, this is not production ready. Going this way, the Chart sets up the secrets for Prowler to connect to the PostgreSQL database and Valkey.
+
+To connect to existing PostgreSQL and Valkey instances. Create `Secrets` containing the correct credentials, as specified in the `values.yaml` file.
 
 ## Contributing
 
