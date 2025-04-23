@@ -2,7 +2,7 @@ apiVersion: v2
 name: prowler
 description: Prowler is an Open Cloud Security tool for AWS, Azure, GCP and Kubernetes. It helps for continuous monitoring, security assessments and audits, incident response, compliance, hardening and forensics readiness. 
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: "5.5.1"
 home: https://prowler.com/
 icon: https://prowler.com/wp-content/themes/prowler-2024/img/web-logo-prowler-p.png
@@ -16,10 +16,12 @@ maintainers:
   - name: Dani
     email: andre.gomes@promptlyhealth.com
 dependencies:
+  # https://artifacthub.io/packages/helm/bitnami/postgresql
   - name: postgresql
     version: 16.6.3
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
+  # https://artifacthub.io/packages/helm/bitnami/valkey
   - name: valkey
     version: 3.0.1
     repository: https://charts.bitnami.com/bitnami
@@ -35,11 +37,14 @@ annotations:
     - name: support
       url: https://github.com/promptlylabs/prowler-helm-chart/issues
   artifacthub.io/changes: |
-    - kind: added
-      description: First iteration of the Prowler Chart.
-      links:
-        - name: Github PR
-          url: https://github.com/promptlylabs/prowler-helm-chart/pull/1
+    # TODO
+    - kind: fixed
+      description: Worker services startup command
+    - kind: changed
+      description: Environment variables setup for API and worker services
+  #   links:
+  #     - name: Github PR
+  #       url: https://github.com/promptlylabs/prowler-helm-chart/pull/1
   artifacthub.io/prerelease: "true"
 #   artifacthub.io/containsSecurityUpdates: "true"
   artifacthub.io/screenshots: |

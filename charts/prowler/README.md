@@ -29,6 +29,21 @@ The app leverages the following supporting infrastructure:
 
 ![prowler architecture](https://promptlylabs.github.io/prowler-helm-chart/docs/images/architecture.png)
 
+## Setup
+
+Prowler requires an existing PostgreSQL database and a DB user with the necessary permissions to create tables and run migrations.
+
+On startup, the Prowler API will run migrations and create a new user defined on the following environment variable:
+
+```yaml
+POSTGRES_USER: prowler
+POSTGRES_PASSWORD: prowler_password
+```
+
+This Chart uses Bitnami's Charts to deploy PostgreSQL and Valkey, but keep in mind, this is not production ready. Going this way, the Chart sets up the secrets for Prowler to connect to the PostgreSQL database and Valkey.
+
+To connect to existing PostgreSQL and Valkey instances. Create `Secrets` containing the correct credentials, as specified in the `values.yaml` file.
+
 ## Contributing
 
 Feel free to contact the maintainer of this repository for any questions or concerns. Contributions are encouraged and appreciated.

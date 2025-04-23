@@ -45,29 +45,35 @@ spec:
           command:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.api.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.api.service.port }}
               protocol: TCP
-          env:
-          - name: POSTGRES_ADMIN_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
-                key: postgres-password
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ ternary .Values.postgresql.global.postgresql.auth.existingSecret .Values.api.postgresql.existingSecret .Values.postgresql.enabled}}
-                key: password
-          - name: VALKEY_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ ternary .Values.valkey.auth.existingSecret .Values.api.valkey.existingSecret .Values.valkey.enabled}}
-                key: valkey-password
           envFrom:
             - configMapRef:
                 name: {{ include "prowler.fullname" . }}-api
+            {{- if .Values.api.djangoConfigKeys.create }}
+            - secretRef:
+                name: {{ include "prowler.fullname" . }}-api-django-config-keys
+            {{- end }}
+            {{- if .Values.postgresql.enabled }}
+            - secretRef:
+                name: {{ include "prowler.fullname" . }}-api-postgres
+            {{- end }}
+            {{- if .Values.valkey.enabled }}
+            - secretRef:
+                name: {{ include "prowler.fullname" . }}-api-valkey
+            {{- end }}
+            {{- with .Values.api.secrets }}
+            {{- range $index, $secret := . }}
+            - secretRef:
+                name: {{ $secret }}
+            {{- end }}
+            {{- end }}
           {{- with .Values.api.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
