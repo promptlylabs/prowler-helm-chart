@@ -37,26 +37,24 @@ annotations:
     - name: support
       url: https://github.com/promptlylabs/prowler-helm-chart/issues
   artifacthub.io/changes: |
-    # TODO
     - kind: fixed
       description: Worker services startup command
     - kind: changed
       description: Environment variables setup for API and worker services
-  #   links:
-  #     - name: Github PR
-  #       url: https://github.com/promptlylabs/prowler-helm-chart/pull/1
-  artifacthub.io/prerelease: "true"
+      links:
+        - name: Github PR
+          url: https://github.com/promptlylabs/prowler-helm-chart/pull/2
 #   artifacthub.io/containsSecurityUpdates: "true"
   artifacthub.io/screenshots: |
     - title: Sign In
       url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/sign_in.png
     - title: Sign Up
       url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/sign_up.png
-#     - title: Package details
-#       url: https://artifacthub.github.io/hub/screenshots/screenshot3.jpg
-#     - title: Security report
-#       url: https://artifacthub.github.io/hub/screenshots/screenshot4.jpg
-#     - title: Values schema
-#       url: https://artifacthub.github.io/hub/screenshots/screenshot5.jpg
-#     - title: Changelog
-#       url: https://artifacthub.github.io/hub/screenshots/screenshot6.jpg
+    - title: Homepage
+      url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/overview.png
+    - title: Findings
+      url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/findings.png
+    - title: Providers
+      url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/providers.png
+    - title: Scans
+      url: https://promptlylabs.github.io/prowler-helm-chart/docs/images/scans.png

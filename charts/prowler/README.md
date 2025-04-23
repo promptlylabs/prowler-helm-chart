@@ -5,7 +5,7 @@ Images should use absolute URLs.
 
 # Prowler Helm Chart
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square)
+![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square)
 ![AppVersion: 5.5.1](https://img.shields.io/badge/AppVersion-5.5.1-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prowler-app)](https://artifacthub.io/packages/helm/prowler-app/prowler)
 
@@ -40,7 +40,7 @@ POSTGRES_USER: prowler
 POSTGRES_PASSWORD: prowler_password
 ```
 
-This Chart uses Bitnami's Charts to deploy PostgreSQL and Valkey, but keep in mind, this is not production ready. Going this way, the Chart sets up the secrets for Prowler to connect to the PostgreSQL database and Valkey.
+This Chart uses Bitnami's Charts to deploy [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql) and [Valkey](https://artifacthub.io/packages/helm/bitnami/valkey), but keep in mind, this is not production ready. Going this way, the Chart sets up the secrets for Prowler to connect to the PostgreSQL database and Valkey.
 
 To connect to existing PostgreSQL and Valkey instances. Create `Secrets` containing the correct credentials, as specified in the `values.yaml` file.
 
