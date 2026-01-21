@@ -598,7 +598,8 @@
                     "type": "integer"
                 },
                 "resources": {
-                    "type": "null"
+                    "properties": {},
+                    "type": "object"
                 },
                 "securityContext": {
                     "properties": {},
