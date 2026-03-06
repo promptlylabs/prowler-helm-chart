@@ -32,7 +32,31 @@ valkey:
     enabled: false
     # password: valkey_password
 
-ui:  
+neo4j:
+  # If enabled, it will create a Secret with the credentials.
+  # Otherwise, create a secret with the following:
+  # - NEO4J_HOST
+  # - NEO4J_PORT
+  # - NEO4J_USER
+  # - NEO4J_PASSWORD
+  enabled: true
+  fullnameOverride: "prowler-neo4j"
+  neo4j:
+    name: "prowler-neo4j"
+    password: "neo4j_password"
+    # Enable APOC plugin
+    plugins:
+      - apoc
+    config:
+      dbms.security.procedures.allowlist: "apoc.*"
+      server.memory.pagecache.size: "1G"
+      server.memory.heap.initial_size: "1G"
+      server.memory.heap.max_size: "1G"
+  volumes:
+    data:
+      mode: defaultStorageClass
+
+ui:
   # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
   replicaCount: 2
 
@@ -189,6 +213,28 @@ api:
     DJANGO_STALE_WHILE_REVALIDATE: "60"
     DJANGO_MANAGE_DB_PARTITIONS: "True"
     DJANGO_BROKER_VISIBILITY_TIMEOUT: "86400"
+    DJANGO_THROTTLE_TOKEN_OBTAIN: "50/minute"
+    TASK_RETRY_DELAY_SECONDS: "0.1"
+    TASK_RETRY_ATTEMPTS: "5"
+    # Attack Paths / Neo4j settings
+    ATTACK_PATHS_BATCH_SIZE: "1000"
+    ATTACK_PATHS_SERVICE_UNAVAILABLE_MAX_RETRIES: "3"
+    ATTACK_PATHS_READ_QUERY_TIMEOUT_SECONDS: "30"
+    ATTACK_PATHS_MAX_CUSTOM_QUERY_NODES: "250"
+    # S3 Output settings (optional)
+    # DJANGO_OUTPUT_S3_AWS_ACCESS_KEY_ID: ""
+    # DJANGO_OUTPUT_S3_AWS_SECRET_ACCESS_KEY: ""
+    # DJANGO_OUTPUT_S3_AWS_SESSION_TOKEN: ""
+    # DJANGO_OUTPUT_S3_AWS_DEFAULT_REGION: ""
+    # DJANGO_OUTPUT_S3_AWS_OUTPUT_BUCKET: ""
+    #
+    # Sentry (optional)
+    # DJANGO_SENTRY_DSN: ""
+    #
+    # Social login (optional) - add these via api.secrets
+    # SOCIAL_GOOGLE_OAUTH_CLIENT_ID, SOCIAL_GOOGLE_OAUTH_CLIENT_SECRET
+    # SOCIAL_GITHUB_OAUTH_CLIENT_ID, SOCIAL_GITHUB_OAUTH_CLIENT_SECRET
+    # SAML_SSO_CALLBACK_URL
   djangoConfigKeys:
     # Create secret with Django Keys
     # If false, a secret needs to be created with the following:
@@ -371,7 +417,7 @@ worker:
     # runAsNonRoot: true
     # runAsUser: 1000
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following

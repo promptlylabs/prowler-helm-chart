@@ -1,19 +1,21 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
     "properties": {
         "api": {
+            "type": "object",
             "properties": {
                 "affinity": {
-                    "properties": {},
                     "type": "object"
                 },
                 "args": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "autoscaling": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -30,17 +32,29 @@
                         "targetMemoryUtilizationPercentage": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "command": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "djangoConfig": {
+                    "type": "object",
                     "properties": {
+                        "ATTACK_PATHS_BATCH_SIZE": {
+                            "type": "string"
+                        },
+                        "ATTACK_PATHS_MAX_CUSTOM_QUERY_NODES": {
+                            "type": "string"
+                        },
+                        "ATTACK_PATHS_READ_QUERY_TIMEOUT_SECONDS": {
+                            "type": "string"
+                        },
+                        "ATTACK_PATHS_SERVICE_UNAVAILABLE_MAX_RETRIES": {
+                            "type": "string"
+                        },
                         "DJANGO_ACCESS_TOKEN_LIFETIME": {
                             "type": "string"
                         },
@@ -83,24 +97,33 @@
                         "DJANGO_STALE_WHILE_REVALIDATE": {
                             "type": "string"
                         },
+                        "DJANGO_THROTTLE_TOKEN_OBTAIN": {
+                            "type": "string"
+                        },
                         "DJANGO_TMP_OUTPUT_DIRECTORY": {
                             "type": "string"
                         },
                         "DJANGO_WORKERS": {
                             "type": "string"
+                        },
+                        "TASK_RETRY_ATTEMPTS": {
+                            "type": "string"
+                        },
+                        "TASK_RETRY_DELAY_SECONDS": {
+                            "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "djangoConfigKeys": {
+                    "type": "object",
                     "properties": {
                         "create": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "image": {
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -111,16 +134,15 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "imagePullSecrets": {
                     "type": "array"
                 },
                 "ingress": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "className": {
@@ -130,13 +152,17 @@
                             "type": "boolean"
                         },
                         "hosts": {
+                            "type": "array",
                             "items": {
+                                "type": "object",
                                 "properties": {
                                     "host": {
                                         "type": "string"
                                     },
                                     "paths": {
+                                        "type": "array",
                                         "items": {
+                                            "type": "object",
                                             "properties": {
                                                 "path": {
                                                     "type": "string"
@@ -144,28 +170,25 @@
                                                 "pathType": {
                                                     "type": "string"
                                                 }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "type": "array"
+                                            }
+                                        }
                                     }
-                                },
-                                "type": "object"
-                            },
-                            "type": "array"
+                                }
+                            }
                         },
                         "tls": {
                             "type": "array"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "livenessProbe": {
+                    "type": "object",
                     "properties": {
                         "failureThreshold": {
                             "type": "integer"
                         },
                         "httpGet": {
+                            "type": "object",
                             "properties": {
                                 "path": {
                                     "type": "string"
@@ -173,37 +196,33 @@
                                 "port": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "periodSeconds": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "nodeSelector": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podAnnotations": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podLabels": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podSecurityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "readinessProbe": {
+                    "type": "object",
                     "properties": {
                         "failureThreshold": {
                             "type": "integer"
                         },
                         "httpGet": {
+                            "type": "object",
                             "properties": {
                                 "path": {
                                     "type": "string"
@@ -211,30 +230,27 @@
                                 "port": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         },
                         "periodSeconds": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "replicaCount": {
                     "type": "integer"
                 },
                 "resources": {
-                    "properties": {},
                     "type": "object"
                 },
                 "secrets": {
                     "type": "array"
                 },
                 "securityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "service": {
+                    "type": "object",
                     "properties": {
                         "port": {
                             "type": "integer"
@@ -242,13 +258,12 @@
                         "type": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "serviceAccount": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "automount": {
@@ -260,8 +275,7 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "tolerations": {
                     "type": "array"
@@ -272,8 +286,7 @@
                 "volumes": {
                     "type": "array"
                 }
-            },
-            "type": "object"
+            }
         },
         "fullnameOverride": {
             "type": "string"
@@ -281,16 +294,78 @@
         "nameOverride": {
             "type": "string"
         },
+        "neo4j": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "fullnameOverride": {
+                    "type": "string"
+                },
+                "neo4j": {
+                    "type": "object",
+                    "properties": {
+                        "config": {
+                            "type": "object",
+                            "properties": {
+                                "dbms.security.procedures.allowlist": {
+                                    "type": "string"
+                                },
+                                "server.memory.heap.initial_size": {
+                                    "type": "string"
+                                },
+                                "server.memory.heap.max_size": {
+                                    "type": "string"
+                                },
+                                "server.memory.pagecache.size": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "plugins": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "volumes": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "mode": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "postgresql": {
+            "type": "object",
             "properties": {
                 "enabled": {
                     "type": "boolean"
                 },
                 "global": {
+                    "type": "object",
                     "properties": {
                         "postgresql": {
+                            "type": "object",
                             "properties": {
                                 "auth": {
+                                    "type": "object",
                                     "properties": {
                                         "database": {
                                             "type": "string"
@@ -298,25 +373,22 @@
                                         "postgresPassword": {
                                             "type": "string"
                                         }
-                                    },
-                                    "type": "object"
+                                    }
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 }
-            },
-            "type": "object"
+            }
         },
         "ui": {
+            "type": "object",
             "properties": {
                 "affinity": {
-                    "properties": {},
                     "type": "object"
                 },
                 "autoscaling": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -333,10 +405,10 @@
                         "targetMemoryUtilizationPercentage": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "image": {
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -347,16 +419,15 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "imagePullSecrets": {
                     "type": "array"
                 },
                 "ingress": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "className": {
@@ -366,13 +437,17 @@
                             "type": "boolean"
                         },
                         "hosts": {
+                            "type": "array",
                             "items": {
+                                "type": "object",
                                 "properties": {
                                     "host": {
                                         "type": "string"
                                     },
                                     "paths": {
+                                        "type": "array",
                                         "items": {
+                                            "type": "object",
                                             "properties": {
                                                 "path": {
                                                     "type": "string"
@@ -380,25 +455,22 @@
                                                 "pathType": {
                                                     "type": "string"
                                                 }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "type": "array"
+                                            }
+                                        }
                                     }
-                                },
-                                "type": "object"
-                            },
-                            "type": "array"
+                                }
+                            }
                         },
                         "tls": {
                             "type": "array"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "livenessProbe": {
+                    "type": "object",
                     "properties": {
                         "httpGet": {
+                            "type": "object",
                             "properties": {
                                 "path": {
                                     "type": "string"
@@ -406,31 +478,27 @@
                                 "port": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "nodeSelector": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podAnnotations": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podLabels": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podSecurityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "readinessProbe": {
+                    "type": "object",
                     "properties": {
                         "httpGet": {
+                            "type": "object",
                             "properties": {
                                 "path": {
                                     "type": "string"
@@ -438,24 +506,21 @@
                                 "port": {
                                     "type": "string"
                                 }
-                            },
-                            "type": "object"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "replicaCount": {
                     "type": "integer"
                 },
                 "resources": {
-                    "properties": {},
                     "type": "object"
                 },
                 "securityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "service": {
+                    "type": "object",
                     "properties": {
                         "port": {
                             "type": "integer"
@@ -463,13 +528,12 @@
                         "type": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "serviceAccount": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "automount": {
@@ -481,8 +545,7 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "tolerations": {
                     "type": "array"
@@ -493,41 +556,41 @@
                 "volumes": {
                     "type": "array"
                 }
-            },
-            "type": "object"
+            }
         },
         "valkey": {
+            "type": "object",
             "properties": {
                 "architecture": {
                     "type": "string"
                 },
                 "auth": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "enabled": {
                     "type": "boolean"
                 }
-            },
-            "type": "object"
+            }
         },
         "worker": {
+            "type": "object",
             "properties": {
                 "affinity": {
-                    "properties": {},
                     "type": "object"
                 },
                 "args": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "autoscaling": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -544,16 +607,16 @@
                         "targetMemoryUtilizationPercentage": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "command": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "image": {
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -564,50 +627,42 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "imagePullSecrets": {
                     "type": "array"
                 },
                 "livenessProbe": {
-                    "properties": {},
                     "type": "object"
                 },
                 "nodeSelector": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podAnnotations": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podLabels": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podSecurityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "readinessProbe": {
-                    "properties": {},
                     "type": "object"
                 },
                 "replicaCount": {
                     "type": "integer"
                 },
                 "resources": {
-                    "type": "null"
+                    "type": "object"
                 },
                 "securityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "serviceAccount": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "automount": {
@@ -619,8 +674,7 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "tolerations": {
                     "type": "array"
@@ -631,22 +685,22 @@
                 "volumes": {
                     "type": "array"
                 }
-            },
-            "type": "object"
+            }
         },
         "worker_beat": {
+            "type": "object",
             "properties": {
                 "affinity": {
-                    "properties": {},
                     "type": "object"
                 },
                 "args": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "autoscaling": {
+                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -663,16 +717,16 @@
                         "targetMemoryUtilizationPercentage": {
                             "type": "integer"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "command": {
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "image": {
+                    "type": "object",
                     "properties": {
                         "pullPolicy": {
                             "type": "string"
@@ -683,51 +737,42 @@
                         "tag": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "imagePullSecrets": {
                     "type": "array"
                 },
                 "livenessProbe": {
-                    "properties": {},
                     "type": "object"
                 },
                 "nodeSelector": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podAnnotations": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podLabels": {
-                    "properties": {},
                     "type": "object"
                 },
                 "podSecurityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "readinessProbe": {
-                    "properties": {},
                     "type": "object"
                 },
                 "replicaCount": {
                     "type": "integer"
                 },
                 "resources": {
-                    "properties": {},
                     "type": "object"
                 },
                 "securityContext": {
-                    "properties": {},
                     "type": "object"
                 },
                 "serviceAccount": {
+                    "type": "object",
                     "properties": {
                         "annotations": {
-                            "properties": {},
                             "type": "object"
                         },
                         "automount": {
@@ -739,8 +784,7 @@
                         "name": {
                             "type": "string"
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "tolerations": {
                     "type": "array"
@@ -751,9 +795,7 @@
                 "volumes": {
                     "type": "array"
                 }
-            },
-            "type": "object"
+            }
         }
-    },
-    "type": "object"
+    }
 }

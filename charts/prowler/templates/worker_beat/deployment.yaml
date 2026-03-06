@@ -64,6 +64,10 @@ spec:
             - secretRef:
                 name: {{ include "prowler.fullname" . }}-api-valkey
             {{- end }}
+            {{- if .Values.neo4j.enabled }}
+            - secretRef:
+                name: {{ include "prowler.fullname" . }}-api-neo4j
+            {{- end }}
             {{- with .Values.api.secrets }}
             {{- range $index, $secret := . }}
             - secretRef:
