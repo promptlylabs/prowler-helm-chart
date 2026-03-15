@@ -5,8 +5,8 @@ Images should use absolute URLs.
 
 # Prowler Helm Chart
 
-![Version: 0.0.3](https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square)
-![AppVersion: 5.19.0](https://img.shields.io/badge/AppVersion-5.19.0-informational?style=flat-square)
+![Version: 0.0.4](https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square)
+![AppVersion: 5.20.0](https://img.shields.io/badge/AppVersion-5.20.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prowler-app)](https://artifacthub.io/packages/helm/prowler-app/prowler)
 
 Prowler is an Open Cloud Security tool for AWS, Azure, GCP and Kubernetes. It helps for continuos monitoring, security assessments and audits, incident response, compliance, hardening and forensics readiness. Includes CIS, NIST 800, NIST CSF, CISA, FedRAMP, PCI-DSS, GDPR, HIPAA, FFIEC, SOC2, GXP, Well-Architected Security, ENS and more.
@@ -44,6 +44,10 @@ POSTGRES_PASSWORD: prowler_password
 This Chart uses Bitnami's Charts to deploy [PostgreSQL](https://artifacthub.io/packages/helm/bitnami/postgresql) and [Valkey](https://artifacthub.io/packages/helm/bitnami/valkey), and the [Neo4j Helm Chart](https://artifacthub.io/packages/helm/neo4j-helm-charts/neo4j) for graph database support, but keep in mind, this is not production ready. Going this way, the Chart sets up the secrets for Prowler to connect to PostgreSQL, Valkey, and Neo4j.
 
 To connect to existing PostgreSQL, Valkey, and Neo4j instances, create `Secrets` containing the correct credentials, as specified in the `values.yaml` file.
+
+## Official Prowler Helm Chart
+
+This Chart is now also available on the [official Prowler repository](https://github.com/prowler-cloud/prowler/tree/master/contrib/k8s/helm/prowler-app). However, the official Chart is still in development and not yet published on ArtifactHub, so this repository will continue to receive updates until the official Chart matures.
 
 ## Contributing
 
