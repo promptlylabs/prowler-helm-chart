@@ -19,8 +19,13 @@ The app leverages the following supporting infrastructure:
 - **PostgreSQL**: Used for persistent storage of scan results.
 - **Celery Workers**: Facilitate asynchronous execution of Prowler scans.
 - **Valkey**: An in-memory database serving as a message broker for the Celery workers.
+- **Neo4j**: A graph database used for attack path analysis.
 
 ![prowler architecture](docs/images/architecture.png)
+
+## Official Prowler Helm Chart
+
+This Chart is now also available on the [official Prowler repository](https://github.com/prowler-cloud/prowler/tree/master/contrib/k8s/helm/prowler-app). However, the official Chart is still in development and not yet published on ArtifactHub, so this repository will continue to receive updates until the official Chart matures.
 
 ## Contributing
 
