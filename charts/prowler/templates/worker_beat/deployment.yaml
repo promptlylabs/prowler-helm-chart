@@ -13,10 +13,23 @@ spec:
       app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker-beat
   template:
     metadata:
-      {{- with .Values.worker_beat.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/api/configmap.yaml") . | sha256sum }}
+        {{- if .Values.api.djangoConfigKeys.create }}
+        checksum/secret-django: {{ include (print $.Template.BasePath "/api/secret-django.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if and .Values.postgresql.enabled (not .Values.postgresql.existingSecret) }}
+        checksum/secret-postgres: {{ include (print $.Template.BasePath "/api/secret-postgres.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if and .Values.valkey.enabled (not .Values.valkey.existingSecret) }}
+        checksum/secret-valkey: {{ include (print $.Template.BasePath "/api/secret-valkey.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if and .Values.neo4j.enabled (not .Values.neo4j.existingSecret) }}
+        checksum/secret-neo4j: {{ include (print $.Template.BasePath "/api/secret-neo4j.yaml") . | sha256sum }}
+        {{- end }}
+        {{- with .Values.worker_beat.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "prowler.labels" . | nindent 8 }}
         app.kubernetes.io/name: {{ include "prowler.fullname" . }}-worker-beat
@@ -56,15 +69,24 @@ spec:
             - secretRef:
                 name: {{ include "prowler.fullname" . }}-api-django-config-keys
             {{- end }}
-            {{- if .Values.postgresql.enabled }}
+            {{- if .Values.postgresql.existingSecret }}
+            - secretRef:
+                name: {{ .Values.postgresql.existingSecret }}
+            {{- else if .Values.postgresql.enabled }}
             - secretRef:
                 name: {{ include "prowler.fullname" . }}-api-postgres
             {{- end }}
-            {{- if .Values.valkey.enabled }}
+            {{- if .Values.valkey.existingSecret }}
+            - secretRef:
+                name: {{ .Values.valkey.existingSecret }}
+            {{- else if .Values.valkey.enabled }}
             - secretRef:
                 name: {{ include "prowler.fullname" . }}-api-valkey
             {{- end }}
-            {{- if .Values.neo4j.enabled }}
+            {{- if .Values.neo4j.existingSecret }}
+            - secretRef:
+                name: {{ .Values.neo4j.existingSecret }}
+            {{- else if .Values.neo4j.enabled }}
             - secretRef:
                 name: {{ include "prowler.fullname" . }}-api-neo4j
             {{- end }}

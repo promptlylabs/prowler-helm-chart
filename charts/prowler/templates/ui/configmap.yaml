@@ -23,5 +23,3 @@ data:
   {{- end }}
   AUTH_TRUST_HOST: "true"
   UI_PORT: {{ .Values.ui.service.port | quote }}
-  # openssl rand -base64 32
-  AUTH_SECRET: "N/c6mnaS5+SWq81+819OrzQZlmx1Vxtp/orjttJSmw8:"

@@ -1,6 +1,9 @@
 # This is to override the chart name.
 nameOverride: ""
-fullnameOverride: ""
+# The prowler-ui Docker image has NEXT_PUBLIC_API_BASE_URL=http://prowler-api:8080/api/v1
+# baked into the JS bundle at build time (NEXT_PUBLIC_* vars cannot be overridden at runtime).
+# This means the API service MUST be named "prowler-api", which requires fullnameOverride: "prowler".
+fullnameOverride: "prowler"
 
 postgresql:
   # If enabled, it will create a Secret with the credentials.
@@ -13,6 +16,11 @@ postgresql:
   # - POSTGRES_PASSWORD
   # - POSTGRES_DB             - Existing DB
   enabled: true
+  # If set, the chart will NOT auto-create the PostgreSQL connection secret
+  # and will reference this existing secret instead (e.g. from External Secrets Operator).
+  # Required keys: POSTGRES_HOST, POSTGRES_PORT, POSTGRES_ADMIN_USER,
+  #   POSTGRES_ADMIN_PASSWORD, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
+  existingSecret: ""
   global:
     postgresql:
       auth:
@@ -27,6 +35,10 @@ valkey:
   # - VALKEY_PASSWORD
   # - VALKEY_DB
   enabled: true
+  # If set, the chart will NOT auto-create the Valkey connection secret
+  # and will reference this existing secret instead (e.g. from External Secrets Operator).
+  # Required keys: VALKEY_HOST, VALKEY_PORT, VALKEY_PASSWORD, VALKEY_DB
+  existingSecret: ""
   architecture: "standalone"
   auth:
     enabled: false
@@ -40,6 +52,10 @@ neo4j:
   # - NEO4J_USER
   # - NEO4J_PASSWORD
   enabled: true
+  # If set, the chart will NOT auto-create the Neo4j connection secret
+  # and will reference this existing secret instead (e.g. from External Secrets Operator).
+  # Required keys: NEO4J_HOST, NEO4J_PORT, NEO4J_USER, NEO4J_PASSWORD
+  existingSecret: ""
   fullnameOverride: "prowler-neo4j"
   neo4j:
     name: "prowler-neo4j"
@@ -90,16 +106,21 @@ ui:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext: {}
-    # fsGroup: 2000
+  # If set, the chart won't create the auth secret and will reference this existing secret instead.
+  # Required key: AUTH_SECRET (obtain from `openssl rand -base64 32`)
+  authSecret:
+    existingSecret: ""
 
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  podSecurityContext:
+    fsGroup: 1001
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
   service:
@@ -139,11 +160,11 @@ ui:
   # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   livenessProbe:
     httpGet:
-      path: /
+      path: /sign-in
       port: http
   readinessProbe:
     httpGet:
-      path: /
+      path: /sign-in
       port: http
 
   # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
@@ -231,10 +252,12 @@ api:
     # Sentry (optional)
     # DJANGO_SENTRY_DSN: ""
     #
-    # Social login (optional) - add these via api.secrets
+    # SAML SSO (optional) - see https://docs.prowler.com/user-guide/tutorials/prowler-app-sso
+    # SAML_SSO_CALLBACK_URL: "https://api.example.com/api/v1/saml/acs"
+    #
+    # Social login (optional) - add OAuth credentials via api.secrets
     # SOCIAL_GOOGLE_OAUTH_CLIENT_ID, SOCIAL_GOOGLE_OAUTH_CLIENT_SECRET
     # SOCIAL_GITHUB_OAUTH_CLIENT_ID, SOCIAL_GITHUB_OAUTH_CLIENT_SECRET
-    # SAML_SSO_CALLBACK_URL
   djangoConfigKeys:
     # Create secret with Django Keys
     # If false, a secret needs to be created with the following:
@@ -274,16 +297,16 @@ api:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext: {}
-    # fsGroup: 2000
+  podSecurityContext:
+    fsGroup: 1000
 
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
   service:
@@ -320,11 +343,12 @@ api:
     #   cpu: 100m
     #   memory: 128Mi
 
-  # 3m30s to setup DB
-  # startupProbe:
-  #   httpGet:
-  #     path: /api/v1/docs
-  #     port: http
+  startupProbe:
+    httpGet:
+      path: /api/v1/docs
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
 
   # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   livenessProbe:
@@ -406,16 +430,16 @@ worker:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext: {}
-    # fsGroup: 2000
+  podSecurityContext:
+    fsGroup: 1000
 
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -428,7 +452,9 @@ worker:
     #   cpu: 100m
     #   memory: 128Mi
 
-  # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # Celery workers don't expose HTTP endpoints, so httpGet probes are not applicable.
+  # Alternatives (exec probes with `celery inspect ping`) are unreliable when workers are busy processing tasks.
+  # See: https://medium.com/ambient-innovation/health-checks-for-celery-in-kubernetes-cf3274a3e106
   livenessProbe: {}
   readinessProbe: {}
 
@@ -473,7 +499,7 @@ worker_beat:
     tag: ""
   
   command:
-    - ../docker-entrypoint.sh
+    - /home/prowler/docker-entrypoint.sh
   args:
     - beat
 
@@ -499,16 +525,16 @@ worker_beat:
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
 
-  podSecurityContext: {}
-    # fsGroup: 2000
+  podSecurityContext:
+    fsGroup: 1000
 
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -521,7 +547,9 @@ worker_beat:
     #   cpu: 100m
     #   memory: 128Mi
 
-  # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # Celery workers don't expose HTTP endpoints, so httpGet probes are not applicable.
+  # Alternatives (exec probes with `celery inspect ping`) are unreliable when workers are busy processing tasks.
+  # See: https://medium.com/ambient-innovation/health-checks-for-celery-in-kubernetes-cf3274a3e106
   livenessProbe: {}
   readinessProbe: {}
 
