@@ -5,7 +5,7 @@ Images should use absolute URLs.
 
 # Prowler Helm Chart
 
-![Version: 0.0.4](https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square)
+![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square)
 ![AppVersion: 5.20.0](https://img.shields.io/badge/AppVersion-5.20.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prowler-app)](https://artifacthub.io/packages/helm/prowler-app/prowler)
 
