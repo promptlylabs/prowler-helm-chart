@@ -12,8 +12,15 @@ data:
   AUTH_URL: "http://localhost:{{ .Values.ui.service.port }}"
   {{- end }}
   API_BASE_URL: "http://{{ include "prowler.fullname" . }}-api:{{ .Values.api.service.port }}/api/v1"
+  {{- if .Values.api.ingress.enabled }}
+  {{- with (first .Values.api.ingress.hosts) }}
+  NEXT_PUBLIC_API_BASE_URL: "https://{{ .host }}/api/v1"
+  NEXT_PUBLIC_API_DOCS_URL: "https://{{ .host }}/api/v1/docs"
+  {{- end }}
+  {{- else }}
   NEXT_PUBLIC_API_BASE_URL: "http://{{ include "prowler.fullname" . }}-api:{{ .Values.api.service.port }}/api/v1"
   NEXT_PUBLIC_API_DOCS_URL: "http://{{ include "prowler.fullname" . }}-api:{{ .Values.api.service.port }}/api/v1/docs"
+  {{- end }}
   AUTH_TRUST_HOST: "true"
   UI_PORT: {{ .Values.ui.service.port | quote }}
   # openssl rand -base64 32
