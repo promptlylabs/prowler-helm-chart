@@ -2,7 +2,7 @@ apiVersion: v2
 name: prowler
 description: Prowler is an Open Cloud Security tool for AWS, Azure, GCP and Kubernetes. It helps for continuous monitoring, security assessments and audits, incident response, compliance, hardening and forensics readiness. 
 type: application
-version: 0.0.5
+version: 0.0.6
 appVersion: "5.20.0"
 home: https://prowler.com/
 icon: https://promptlylabs.github.io/prowler-helm-chart/docs/images/prowler-icon.jpeg
@@ -18,7 +18,7 @@ maintainers:
 dependencies:
   # https://artifacthub.io/packages/helm/bitnami/postgresql
   - name: postgresql
-    version: 18.5.2
+    version: 18.5.6
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   # https://artifacthub.io/packages/helm/bitnami/valkey
@@ -28,7 +28,7 @@ dependencies:
     condition: valkey.enabled
   # https://artifacthub.io/packages/helm/neo4j-helm-charts/neo4j
   - name: neo4j
-    version: 2026.1.4
+    version: 2026.2.2
     repository: https://neo4j.github.io/helm-charts/
     condition: neo4j.enabled
 annotations: 
@@ -43,15 +43,19 @@ annotations:
       url: https://github.com/promptlylabs/prowler-helm-chart/issues
   artifacthub.io/changes: |
     - kind: fixed
-      description: "NEXT_PUBLIC_API_BASE_URL and NEXT_PUBLIC_API_DOCS_URL now use the API ingress host when ingress is enabled, so the browser can reach the API"
+      description: "POSTGRES_HOST now uses the PostgreSQL subchart's fullname helper, fixing hostname mismatch when fullnameOverride is set or release name differs"
       links:
         - name: Github PR
-          url: https://github.com/promptlylabs/prowler-helm-chart/pull/6
+          url: https://github.com/promptlylabs/prowler-helm-chart/pull/7
     - kind: fixed
-      description: "NEO4J_HOST now uses the Neo4j subchart's fullname helper, fixing hostname mismatch when release name differs from 'prowler'"
+      description: "VALKEY_HOST now uses the Valkey subchart's fullname helper, fixing hostname mismatch when fullnameOverride is set or release name differs"
       links:
         - name: Github PR
-          url: https://github.com/promptlylabs/prowler-helm-chart/pull/6
+          url: https://github.com/promptlylabs/prowler-helm-chart/pull/7
+    - kind: changed
+      description: "Updated PostgreSQL subchart from 18.5.2 to 18.5.6"
+    - kind: changed
+      description: "Updated Neo4j subchart from 2026.1.4 to 2026.2.2"
 #   artifacthub.io/containsSecurityUpdates: "true"
   artifacthub.io/screenshots: |
     - title: Login
