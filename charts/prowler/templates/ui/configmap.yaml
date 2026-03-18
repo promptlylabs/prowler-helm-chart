@@ -8,6 +8,10 @@ data:
   {{- with (first .Values.ui.ingress.hosts) }}
   AUTH_URL: "https://{{ .host }}"
   {{- end }}
+  {{- else if .Values.ui.gatewayAPI.httpRoute.enabled }}
+  {{- with (first .Values.ui.gatewayAPI.httpRoute.hostnames) }}
+  AUTH_URL: "https://{{ . }}"
+  {{- end }}
   {{- else }}
   AUTH_URL: "http://localhost:{{ .Values.ui.service.port }}"
   {{- end }}
