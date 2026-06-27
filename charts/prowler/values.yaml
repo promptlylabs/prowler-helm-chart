@@ -34,6 +34,9 @@ valkey:
   # - VALKEY_PORT
   # - VALKEY_PASSWORD
   # - VALKEY_DB
+  # Optional broker TLS/auth keys (added in 5.x), e.g. for ElastiCache/managed Valkey:
+  # - VALKEY_SCHEME    (e.g. "rediss" to enable TLS)
+  # - VALKEY_USERNAME
   enabled: true
   # If set, the chart will NOT auto-create the Valkey connection secret
   # and will reference this existing secret instead (e.g. from External Secrets Operator).
@@ -146,7 +149,7 @@ ui:
     #    hosts:
     #      - chart-example.local
 
-  # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/
+  # This block is for setting up the Gateway API HTTPRoute for the UI. More information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/
   gatewayAPI:
     httpRoute:
       enabled: false
@@ -259,6 +262,10 @@ api:
     ATTACK_PATHS_SERVICE_UNAVAILABLE_MAX_RETRIES: "3"
     ATTACK_PATHS_READ_QUERY_TIMEOUT_SECONDS: "30"
     ATTACK_PATHS_MAX_CUSTOM_QUERY_NODES: "250"
+    # Persistent sink database for Attack Paths. One of [neo4j|neptune] (added in 5.x).
+    ATTACK_PATHS_SINK_DATABASE: "neo4j"
+    # Neo4j driver connection acquisition timeout in seconds (optional, added in 5.x)
+    # NEO4J_CONN_ACQUISITION_TIMEOUT: "15"
     # S3 Output settings (optional)
     # DJANGO_OUTPUT_S3_AWS_ACCESS_KEY_ID: ""
     # DJANGO_OUTPUT_S3_AWS_SECRET_ACCESS_KEY: ""
@@ -275,6 +282,15 @@ api:
     # Social login (optional) - add OAuth credentials via api.secrets
     # SOCIAL_GOOGLE_OAUTH_CLIENT_ID, SOCIAL_GOOGLE_OAUTH_CLIENT_SECRET
     # SOCIAL_GITHUB_OAUTH_CLIENT_ID, SOCIAL_GITHUB_OAUTH_CLIENT_SECRET
+    #
+    # Celery / task tuning (optional, added in 5.x)
+    # Celery worker concurrency. Leave unset for the upstream default.
+    # DJANGO_CELERY_WORKER_CONCURRENCY: "4"
+    # Automatic recovery of allowlisted idempotent background tasks (off by default).
+    # DJANGO_TASK_RECOVERY_ENABLED: "False"
+    #
+    # CORS (optional, added in 5.x) - comma-separated list of allowed origins
+    # CORS_ALLOWED_ORIGINS: "https://prowler.example.com"
   djangoConfigKeys:
     # Create secret with Django Keys
     # If false, a secret needs to be created with the following:

@@ -11,6 +11,8 @@ data:
   {{- else if .Values.ui.gatewayAPI.httpRoute.enabled }}
   {{- with (first .Values.ui.gatewayAPI.httpRoute.hostnames) }}
   AUTH_URL: "https://{{ . }}"
+  {{- else }}
+  AUTH_URL: "http://localhost:{{ $.Values.ui.service.port }}"
   {{- end }}
   {{- else }}
   AUTH_URL: "http://localhost:{{ .Values.ui.service.port }}"
